@@ -1,0 +1,8 @@
+notes
+test.c
+test
+*.out
+server
+client
+.vscode*
+.vscode/*
