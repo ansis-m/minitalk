@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 19:22:23 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/11 19:58:37 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,6 @@ int	main(int argc, char *argv[])
 		graceful_exit("No pid provided to client. Try again!\n");
 	server = atoi(argv[1]);
 	client = getpid();
-	printf("client pid: %d\n", client);
+	ft_printf("client pid: %d\n", client);
 	send_pid(client, server);
 }

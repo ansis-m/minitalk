@@ -6,35 +6,41 @@
 #    By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 16:17:23 by amalecki          #+#    #+#              #
-#    Updated: 2021/12/11 19:17:33 by amalecki         ###   ########.fr        #
+#    Updated: 2021/12/11 20:33:49 by amalecki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SERVER_SOURCE = server.c
-
 CLIENT_SOURCE = client.c client_utils.c
+DIR = ./my_ft_printf
+PRINTF = ${DIR}/libftprintf.a
 
 CLIENT = client
+SERVER = server
 CC = gcc
 CFLAGS = -Wall -Wextra #-Werror                TO BE REMOVED
 
 RM = rm -rf
 
-NAME    = server
 
-${NAME}:        ${SERVER_SOURCE} ${CLIENT} server.h
-		${CC} ${CFLAGS} ${SERVER_SOURCE} -o $@
+all:    ${CLIENT} ${SERVER}
 
-${CLIENT}:        ${CLIENT_SOURCE} client.h
-		${CC} ${CFLAGS} ${CLIENT_SOURCE} -o $@
+${SERVER}:        ${SERVER_SOURCE} ${PRINTF} server.h
+		${CC} ${CFLAGS} ${SERVER_SOURCE} ${PRINTF} -o $@
 
-all:    ${NAME}
+${CLIENT}:        ${CLIENT_SOURCE} ${PRINTF} client.h
+		${CC} ${CFLAGS} ${CLIENT_SOURCE} ${PRINTF} -o $@
+
+${PRINTF}: 
+		$(MAKE) -C ${DIR}
 
 clean:
-		${RM} ${NAME} ${CLIENT}
+		${RM} ${DIR}/OBJECTS
+		
 
 fclean:         clean
-		${RM} ${NAME} ${CLIENT}
+		${RM} ${SERVER} ${CLIENT}
+		${RM} ${DIR}/libftprintf.a
 
 re:     fclean all
 

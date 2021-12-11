@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 19:35:22 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/11 19:58:27 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	main(void)
 
 	init_sigaction(&s_action, s_sig_handler);
 	server = getpid();
-	printf("%d\n", server);
+	ft_printf("%d\n", server);
 	get_pid();
 	client = s_flag;
-	printf("client pid: %d\n", client);
+	ft_printf("client pid: %d\n", client);
 }

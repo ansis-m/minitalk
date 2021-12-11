@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:56 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 09:16:35 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/11 20:03:08 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include	<stdbool.h>
 # include	<stdio.h>//TO BE REMOVED //TO BE REMOVED //TO BE REMOVED
 # include	<wchar.h> //TO BE REMOVED //TO BE REMOVED //TO BE REMOVED
-#include <locale.h>  //TO BE REMOVED //TO BE REMOVED //TO BE REMOVED
+# include	<locale.h>  //TO BE REMOVED //TO BE REMOVED //TO BE REMOVED
+
+int	ft_printf(char const *string, ...);
 
 #endif

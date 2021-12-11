@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:17:02 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 18:13:08 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/11 20:03:32 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@
 
 void	graceful_exit(char *message);
 int		ft_strlen(char *message);
+int		ft_printf(char const *string, ...);
 
 #endif
