@@ -6,35 +6,44 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 17:45:24 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/11 19:22:23 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
+int	c_flag;
 
-int	main(int argc, char *argv[])
+void	c_sig_handler(int signum)
 {
-	pid_t	server;
-	pid_t	client;
+}
 
-	if(argc == 1)
-	{
-		printf("client missing pid\n");
-		exit(0);
-	}
+void	send_pid(pid_t client, pid_t server)
+{
+	int	i;
 
-	server = atoi(argv[1]);
-	client = getpid();
-	printf("client pid: %d\n", client);
-	int k = 99998765;
-	for(int i = 1; i < 33; i++)
+	i = 1;
+	while (i < 33)
 	{
-		if(k & (1 << i))
+		if (client & (1 << i))
 			kill(server, SIGUSR1);
 		else
 			kill(server, SIGUSR2);
-		usleep(500);
+		usleep(200);
+		i++;
 	}
-	kill(server, SIGUSR2);
+}
+
+int	main(int argc, char *argv[])
+{
+	pid_t				server;
+	pid_t				client;
+	struct sigaction	c_action;
+
+	if (argc == 1)
+		graceful_exit("No pid provided to client. Try again!\n");
+	server = atoi(argv[1]);
+	client = getpid();
+	printf("client pid: %d\n", client);
+	send_pid(client, server);
 }

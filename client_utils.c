@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.h                                           :+:      :+:    :+:   */
+/*   client_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/10 16:17:02 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 18:13:08 by amalecki         ###   ########.fr       */
+/*   Created: 2021/12/11 18:06:12 by amalecki          #+#    #+#             */
+/*   Updated: 2021/12/11 18:14:30 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CLIENT_H
-# define CLIENT_H
+#include "client.h"
 
-# include	<unistd.h>
-# include	<stdlib.h>
-# include	<signal.h>
-# include	<stdbool.h>
-# include	<stdio.h>//TO BE REMOVED //TO BE REMOVED //TO BE REMOVED
+int	ft_strlen(char *message)
+{
+	int	i;
 
-void	graceful_exit(char *message);
-int		ft_strlen(char *message);
+	i = 0;
+	while (*(message + i++))
+		;
+	return (i - 1);
+}
 
-#endif
+void	graceful_exit(char *message)
+{
+	write(1, message, ft_strlen(message));
+	exit(0);
+}

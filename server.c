@@ -6,51 +6,60 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 17:44:08 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/11 19:35:22 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-int	flag;
+int	s_flag;
 
-void	sig_handler(int signum)
+void	s_sig_handler(int signum)
 {
 	static int	bit;
 
-	if (bit == 0 || bit > 32)
+	if (bit == 0 || bit > 32 || s_flag == -9999)
+	{
 		bit = 1;
+		s_flag = 0;
+	}
 	if (signum == SIGUSR1)
-		flag = (1 << bit | flag);
+		s_flag = (1 << bit | s_flag);
 	bit++;
-	// else
-	// 	write(1, "received the signal 1\n", 22);
+}
+
+void	get_pid(void)
+{
+	int	i;
+
+	i = 1;
+	while (i < 33)
+	{
+		pause();
+		i++;
+	}
+}
+
+void	init_sigaction(struct sigaction *s_action, void (*sig_handler)(int))
+{
+	sigemptyset(&s_action->sa_mask);
+	sigaddset(&s_action->sa_mask, SIGINT);
+	s_action->sa_flags = 0;
+	s_action->sa_handler = s_sig_handler;
+	sigaction(SIGUSR1, s_action, NULL);
+	sigaction(SIGUSR2, s_action, NULL);
 }
 
 int	main(void)
 {
-	pid_t				pid;
-	struct sigaction	action;
-	int	i;
+	pid_t				server;
+	pid_t				client;
+	struct sigaction	s_action;
 
-	sigemptyset(&action.sa_mask);
-	sigaddset(&action.sa_mask, SIGUSR1);
-	sigaddset(&action.sa_mask, SIGUSR2);
-	action.sa_flags = 0;
-	action.sa_handler = sig_handler;
-	sigaction(SIGUSR1, &action, NULL);
-	sigaction(SIGUSR2, &action, NULL);
-	pid = getpid();
-	printf("%d\n", pid);
-
-	//signal(SIGUSR1, sig_handler);
-	//signal(SIGUSR2, sig_handler);
-
-	printf("server\n");
-	pause();
-	for(i = 1; i < 33 ; i++)
-	{
-		pause();
-	}
-	printf("i: %d\n", flag);
+	init_sigaction(&s_action, s_sig_handler);
+	server = getpid();
+	printf("%d\n", server);
+	get_pid();
+	client = s_flag;
+	printf("client pid: %d\n", client);
 }

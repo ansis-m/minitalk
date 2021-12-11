@@ -6,17 +6,17 @@
 #    By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 16:17:23 by amalecki          #+#    #+#              #
-#    Updated: 2021/12/11 08:04:19 by amalecki         ###   ########.fr        #
+#    Updated: 2021/12/11 19:17:33 by amalecki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SERVER_SOURCE = server.c
 
-CLIENT_SOURCE = client.c
+CLIENT_SOURCE = client.c client_utils.c
 
 CLIENT = client
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Wextra #-Werror                TO BE REMOVED
 
 RM = rm -rf
 
