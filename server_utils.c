@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_utils.c                                     :+:      :+:    :+:   */
+/*   server_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/11 18:06:12 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/12 08:47:59 by amalecki         ###   ########.fr       */
+/*   Created: 2021/12/12 08:45:28 by amalecki          #+#    #+#             */
+/*   Updated: 2021/12/12 08:47:50 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "client.h"
-
-void	graceful_exit(char *message)
-{
-	write(1, message, ft_strlen(message));
-	exit(0);
-}
+#include "server.h"
 
 void	init_sigaction(struct sigaction *s_action, void (*sig_handler)(int))
 {

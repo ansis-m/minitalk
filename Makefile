@@ -6,11 +6,11 @@
 #    By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 16:17:23 by amalecki          #+#    #+#              #
-#    Updated: 2021/12/11 20:33:49 by amalecki         ###   ########.fr        #
+#    Updated: 2021/12/12 08:49:26 by amalecki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SERVER_SOURCE = server.c
+SERVER_SOURCE = server.c server_utils.c
 CLIENT_SOURCE = client.c client_utils.c
 DIR = ./my_ft_printf
 PRINTF = ${DIR}/libftprintf.a
@@ -19,9 +19,7 @@ CLIENT = client
 SERVER = server
 CC = gcc
 CFLAGS = -Wall -Wextra #-Werror                TO BE REMOVED
-
 RM = rm -rf
-
 
 all:    ${CLIENT} ${SERVER}
 
@@ -36,11 +34,10 @@ ${PRINTF}:
 
 clean:
 		${RM} ${DIR}/OBJECTS
-		
 
 fclean:         clean
 		${RM} ${SERVER} ${CLIENT}
-		${RM} ${DIR}/libftprintf.a
+		${RM} ${PRINTF}
 
 re:     fclean all
 

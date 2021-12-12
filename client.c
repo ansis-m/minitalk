@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 19:58:37 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/12 09:14:05 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	c_flag;
 
 void	c_sig_handler(int signum)
 {
+	ft_printf("communication established\n");
 }
 
 void	send_pid(pid_t client, pid_t server)
@@ -45,5 +46,10 @@ int	main(int argc, char *argv[])
 	server = atoi(argv[1]);
 	client = getpid();
 	ft_printf("client pid: %d\n", client);
+	init_sigaction(&c_action, c_sig_handler);
 	send_pid(client, server);
+	pause();
+	pause();
+	pause();
+	pause();
 }

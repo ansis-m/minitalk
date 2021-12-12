@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/11 19:58:27 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/12 09:16:30 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,12 @@ void	get_pid(void)
 	int	i;
 
 	i = 1;
+	pause();
 	while (i < 33)
 	{
-		pause();
+		usleep(250);
 		i++;
 	}
-}
-
-void	init_sigaction(struct sigaction *s_action, void (*sig_handler)(int))
-{
-	sigemptyset(&s_action->sa_mask);
-	sigaddset(&s_action->sa_mask, SIGINT);
-	s_action->sa_flags = 0;
-	s_action->sa_handler = s_sig_handler;
-	sigaction(SIGUSR1, s_action, NULL);
-	sigaction(SIGUSR2, s_action, NULL);
 }
 
 int	main(void)
@@ -62,4 +53,12 @@ int	main(void)
 	get_pid();
 	client = s_flag;
 	ft_printf("client pid: %d\n", client);
+	
+	for (int i = 0 ; i < 200; i++)
+	{
+		kill(client, SIGUSR1);
+		usleep(200);
+	}
+		kill(client, SIGUSR1);
+	
 }
