@@ -6,13 +6,13 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/12 09:16:30 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/12 10:12:19 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-int	s_flag;
+long long	s_flag;
 
 void	s_sig_handler(int signum)
 {
@@ -36,7 +36,7 @@ void	get_pid(void)
 	pause();
 	while (i < 33)
 	{
-		usleep(250);
+		usleep(350);
 		i++;
 	}
 }
@@ -51,9 +51,8 @@ int	main(void)
 	server = getpid();
 	ft_printf("%d\n", server);
 	get_pid();
-	client = s_flag;
+	client = (int)s_flag;
 	ft_printf("client pid: %d\n", client);
-	
 	for (int i = 0 ; i < 200; i++)
 	{
 		kill(client, SIGUSR1);
@@ -62,3 +61,38 @@ int	main(void)
 		kill(client, SIGUSR1);
 	
 }
+
+/*
+Pseudocode for server infinite loop
+
+char *symbol;
+while(true)
+{
+	if(!client)
+	{
+		get_pid()
+		client = (int)s_flag;
+		confirm_received(flag);
+	}
+	while (signal not valid)
+	{
+		confirm_error;
+		get_signal();
+	}
+	if(s_flag > message terminated)
+	{
+		confirm_received();
+		client = 0;
+		s_flag = 0;
+		continue;
+	}
+	else if(s_flag == message)
+	{
+		symbol = (char *)&s_flag;
+		printf("%c", symbol);
+		s_flag = 0;
+		confirm_received();
+	}
+}
+
+*/

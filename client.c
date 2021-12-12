@@ -6,13 +6,13 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/12 09:14:05 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/12 10:19:52 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-int	c_flag;
+long long	c_flag;
 
 void	c_sig_handler(int signum)
 {
@@ -30,7 +30,7 @@ void	send_pid(pid_t client, pid_t server)
 			kill(server, SIGUSR1);
 		else
 			kill(server, SIGUSR2);
-		usleep(200);
+		usleep(300);
 		i++;
 	}
 }
@@ -53,3 +53,33 @@ int	main(int argc, char *argv[])
 	pause();
 	pause();
 }
+
+/*
+Pseudocode for client
+
+send_pid();
+
+while(c_flag = pid_not confirmed)
+{
+	send_pid();
+	usleep(1000);
+}
+reset(c_flag);
+for (int i =2 ; i < argc; i++)
+{
+	for(int j = 0; argv[i][j] != '\0', j++)
+	{
+		send_char()
+		while(c_flag = char_not confirmed)
+		{
+			send_char();
+		}
+		reset(c_flag);
+	}
+}
+
+send_terminating_code()
+while(c_flag = not confirmed)
+	send_terminating_code()
+
+*/
