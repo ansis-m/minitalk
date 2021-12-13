@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 20:12:55 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 20:33:10 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ int	main(int argc, char *argv[])
 		usleep(3000);
 	}	
 	usleep(2000);
-	send_pid(INT_MAX, server);
-	usleep(3000);
 	send_pid(INT_MAX, server);
 
 	usleep(30000);

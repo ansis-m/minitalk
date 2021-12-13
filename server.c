@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 20:08:40 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 20:34:11 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	main(void)
 	server = getpid();
 	ft_printf("%d\n", server);
 	find_client(&client);
-	usleep(1000);
 
 	printf("s_flag: %d\n", (int)s_flag[0]);
 	ft_printf("client pid: %d\n", client);
@@ -72,11 +71,9 @@ int	main(void)
 	while (true)
 	{
 		get_data(11);
-		p = (char)s_flag[0];
-		ft_printf("%c", p);
+		ft_printf("%c", (char)s_flag[0]);
 		reset();
 		kill(client, SIGUSR1);
-		reset();
 		
 	}
 }
