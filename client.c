@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/12 10:19:52 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 11:38:35 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ long long	c_flag;
 void	c_sig_handler(int signum)
 {
 	ft_printf("communication established\n");
+	if (signum == SIGUSR1)
+		c_flag = 1;
 }
 
 void	send_pid(pid_t client, pid_t server)
@@ -30,7 +32,7 @@ void	send_pid(pid_t client, pid_t server)
 			kill(server, SIGUSR1);
 		else
 			kill(server, SIGUSR2);
-		usleep(300);
+		usleep(5000);
 		i++;
 	}
 }
@@ -47,7 +49,21 @@ int	main(int argc, char *argv[])
 	client = getpid();
 	ft_printf("client pid: %d\n", client);
 	init_sigaction(&c_action, c_sig_handler);
-	send_pid(client, server);
+	while (c_flag != 1)
+	{
+		send_pid(client, server);
+		usleep(10000);
+	}	
+	usleep(5000);
+	send_pid(77777777, server);
+	usleep(5000);
+	send_pid(77777777, server);
+	usleep(5000);
+	send_pid(77777777, server);
+	usleep(5000);
+	send_pid(77777777, server);
+	usleep(5000);
+	send_pid(77777777, server);
 	pause();
 	pause();
 	pause();
