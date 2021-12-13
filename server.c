@@ -6,26 +6,21 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 14:02:14 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 14:20:11 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.h"
 
-int	s_flag;
+int	s_flag[2];
 
 void	s_sig_handler(int signum)
 {
-	static int	bit;
-	//printf("s_flag: %d   bit: %d\n", s_flag, bit);
-	if (bit == 0 || bit > 32 || s_flag == -999)
-	{
-		bit = 1;
-		s_flag = 0;
-	}
+	//printf("s_flag: %d   bit: %d\n", s_flag[0], s_flag[1]);
+
 	if (signum == SIGUSR1)
-		s_flag += (1 << bit);
-	bit++;
+		s_flag[0] += (1 << s_flag[1]);
+	s_flag[1]++;
 }
 
 void	get_pid(void)
@@ -41,6 +36,12 @@ void	get_pid(void)
 	}
 }
 
+static void	reset(void)
+{
+		s_flag[0] = 0;
+		s_flag[1] = 1;
+}
+
 int	main(void)
 {
 	pid_t				server;
@@ -50,21 +51,20 @@ int	main(void)
 	init_sigaction(&s_action, s_sig_handler);
 	server = getpid();
 	ft_printf("%d\n", server);
-	s_flag = -999;
 	client = 0;
-	while (s_flag < 999999)
+	while (s_flag[0] < 999999)
 	{
-		s_flag = -999;
+		reset();
 		get_pid();
-		if (s_flag > 0 && s_flag < 777777)
-			client = (int)s_flag;
-		s_flag = -999;
+		if (s_flag[0] > 0 && s_flag[0] < 777777)
+			client = s_flag[0];
+		reset();
 		kill(client, SIGUSR1);
 		get_pid();
 	}	
 
 
-	printf("s_flag: %d\n", (int)s_flag);
+	printf("s_flag: %d\n", (int)s_flag[0]);
 	ft_printf("client pid: %d\n", client);
 	// for (int i = 0 ; i < 200; i++)
 	// {
