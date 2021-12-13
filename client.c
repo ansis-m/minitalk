@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 20:33:10 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 20:44:32 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	send_char(int message, pid_t server)
 
 	i = 0;
 	//message += 1536;
-	while (i < 12)
+	while (i < 8)
 	{
 		usleep(300);
 		if (message & (1 << i))
@@ -82,7 +82,7 @@ int	main(int argc, char *argv[])
 	{
 		for(int j = 0; argv[i][j] != '\0'; j++)
 		{
-			usleep(1000);
+			usleep(300);
 			send_char((int)argv[i][j], server);
 			c_flag = 0;
 			usleep(100000);

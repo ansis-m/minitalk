@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 20:34:11 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 20:41:57 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(void)
 	reset();
 	while (true)
 	{
-		get_data(11);
+		get_data(7);
 		ft_printf("%c", (char)s_flag[0]);
 		reset();
 		kill(client, SIGUSR1);
