@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 20:44:32 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 21:09:00 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ long long	c_flag;
 
 void	c_sig_handler(int signum)
 {
-	ft_printf("communication established\n");
 	if (signum == SIGUSR1)
 		c_flag = 1;
 }
@@ -42,10 +41,9 @@ void	send_char(int message, pid_t server)
 	int	i;
 
 	i = 0;
-	//message += 1536;
 	while (i < 8)
 	{
-		usleep(300);
+		usleep(230);
 		if (message & (1 << i))
 			kill(server, SIGUSR1);
 		else
@@ -75,16 +73,15 @@ int	main(int argc, char *argv[])
 	usleep(2000);
 	send_pid(INT_MAX, server);
 
-	usleep(30000);
+	usleep(3000);
 	
 	c_flag = 0;
 	for (int i = 2 ; i < argc; i++)
 	{
 		for(int j = 0; argv[i][j] != '\0'; j++)
 		{
-			usleep(300);
+			usleep(100);
 			send_char((int)argv[i][j], server);
-			c_flag = 0;
 			usleep(100000);
 		}
 }
