@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 11:38:35 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 14:06:19 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	send_pid(pid_t client, pid_t server)
 			kill(server, SIGUSR1);
 		else
 			kill(server, SIGUSR2);
-		usleep(5000);
+		usleep(100);
 		i++;
 	}
 }
@@ -52,18 +52,11 @@ int	main(int argc, char *argv[])
 	while (c_flag != 1)
 	{
 		send_pid(client, server);
-		usleep(10000);
+		usleep(3000);
 	}	
-	usleep(5000);
-	send_pid(77777777, server);
-	usleep(5000);
-	send_pid(77777777, server);
-	usleep(5000);
-	send_pid(77777777, server);
-	usleep(5000);
-	send_pid(77777777, server);
-	usleep(5000);
-	send_pid(77777777, server);
+	usleep(2000);
+	send_pid(INT_MAX, server);
+
 	pause();
 	pause();
 	pause();

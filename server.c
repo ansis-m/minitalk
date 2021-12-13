@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 11:35:21 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 14:02:14 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	s_flag;
 void	s_sig_handler(int signum)
 {
 	static int	bit;
-	ft_printf("s_flag: %d   bit: %d\n", s_flag, bit);
+	//printf("s_flag: %d   bit: %d\n", s_flag, bit);
 	if (bit == 0 || bit > 32 || s_flag == -999)
 	{
 		bit = 1;
@@ -34,9 +34,9 @@ void	get_pid(void)
 
 	i = 1;
 	pause();
-	while (i < 33)
+	while (i < 35)
 	{
-		usleep(6000);
+		usleep(500);
 		i++;
 	}
 }
@@ -64,6 +64,7 @@ int	main(void)
 	}	
 
 
+	printf("s_flag: %d\n", (int)s_flag);
 	ft_printf("client pid: %d\n", client);
 	// for (int i = 0 ; i < 200; i++)
 	// {
