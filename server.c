@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 14:20:11 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 20:08:40 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,27 +19,38 @@ void	s_sig_handler(int signum)
 	//printf("s_flag: %d   bit: %d\n", s_flag[0], s_flag[1]);
 
 	if (signum == SIGUSR1)
-		s_flag[0] += (1 << s_flag[1]);
+		s_flag[0] |= (1 << s_flag[1]);
 	s_flag[1]++;
-}
-
-void	get_pid(void)
-{
-	int	i;
-
-	i = 1;
-	pause();
-	while (i < 35)
-	{
-		usleep(500);
-		i++;
-	}
 }
 
 static void	reset(void)
 {
-		s_flag[0] = 0;
-		s_flag[1] = 1;
+		s_flag[0] &= 0;
+		s_flag[1] = 0;
+}
+
+static void	find_client(int *client)
+{
+	while (s_flag[0] < 999999)
+	{
+		reset();
+		get_data(33);
+		if (s_flag[0] > 0 && s_flag[0] < 777777)
+			*client = (int)s_flag[0];
+		reset();
+		kill(*client, SIGUSR1);
+		get_data(33);
+	}	
+}
+
+void	get_data(int bits)
+{
+	pause();
+	while (bits)
+	{
+		usleep(1000);
+		bits--;
+	}
 }
 
 int	main(void)
@@ -47,32 +58,27 @@ int	main(void)
 	pid_t				server;
 	pid_t				client;
 	struct sigaction	s_action;
+	char			p;
 
 	init_sigaction(&s_action, s_sig_handler);
 	server = getpid();
 	ft_printf("%d\n", server);
-	client = 0;
-	while (s_flag[0] < 999999)
-	{
-		reset();
-		get_pid();
-		if (s_flag[0] > 0 && s_flag[0] < 777777)
-			client = s_flag[0];
-		reset();
-		kill(client, SIGUSR1);
-		get_pid();
-	}	
-
+	find_client(&client);
+	usleep(1000);
 
 	printf("s_flag: %d\n", (int)s_flag[0]);
 	ft_printf("client pid: %d\n", client);
-	// for (int i = 0 ; i < 200; i++)
-	// {
-	// 	kill(client, SIGUSR1);
-	// 	usleep(200);
-	// }
+	reset();
+	while (true)
+	{
+		get_data(11);
+		p = (char)s_flag[0];
+		ft_printf("%c", p);
+		reset();
 		kill(client, SIGUSR1);
-	
+		reset();
+		
+	}
 }
 
 /*
@@ -87,11 +93,13 @@ while(true)
 		client = (int)s_flag;
 		confirm_received(flag);
 	}
+	get_signal();
 	while (signal not valid)
 	{
 		confirm_error;
 		get_signal();
 	}
+	confirm_received;
 	if(s_flag > message terminated)
 	{
 		confirm_received();

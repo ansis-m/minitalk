@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 08:45:28 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/12 08:47:50 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 17:31:34 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,3 +21,5 @@ void	init_sigaction(struct sigaction *s_action, void (*sig_handler)(int))
 	sigaction(SIGUSR1, s_action, NULL);
 	sigaction(SIGUSR2, s_action, NULL);
 }
+
+

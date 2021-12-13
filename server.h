@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:56 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 13:28:12 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/13 15:23:26 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@
 
 int		ft_printf(char const *string, ...);
 void	init_sigaction(struct sigaction *s_action, void (*sig_handler)(int));
+void	get_data(int bits);
 
 #endif
