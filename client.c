@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/15 17:57:05 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:09:48 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,33 @@ static void	send_data(int message, pid_t server, int size)
 	i = 0;
 	while (i < size)
 	{
-		usleep(250);
+		usleep(150);
 		if (message & (1 << i))
 			kill(server, SIGUSR1);
 		else
 			kill(server, SIGUSR2);
 		i++;
 	}
-	usleep(4000);
-	usleep(3000);
+	usleep(6000);
 }
 
 static void	send_message(int argc, char *argv[], int server)
 {
+	int	i;
+	int	j;
+
 	g_flag = false;
-	for (int i = 2 ; i < argc; i++)
+	i = 2;
+	while (i < argc)
 	{
-		for(int j = 0; argv[i][j] != '\0'; j++)
+		j = 0;
+		while (argv[i][j])
 		{
 			send_data(argv[i][j], server, 8);
+			j++;
 		}
 		send_data('\n', server, 8);
+		i++;
 	}
 	while (!g_flag)
 		send_data(0, server, 8);
