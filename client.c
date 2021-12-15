@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/15 10:51:57 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:17:55 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,14 @@ int	main(int argc, char *argv[])
 		send_char('\n', server);
 		usleep(2000);
 	}
-	send_char(0, server);
+	while(!c_flag)
+	{
+		send_char(0, server);
+		usleep(2000);
+	}
+		
 }
-
+//cat ./big.txt | xargs -0 ./client 15978
 /*
 Pseudocode for client
 

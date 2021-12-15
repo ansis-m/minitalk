@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/15 10:50:36 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 11:22:02 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,25 @@ int	main(void)
 	init_sigaction(&s_action, s_sig_handler);
 	server = getpid();
 	ft_printf("%d\n", server);
-	find_client(&client);
-
-	printf("s_flag: %d\n", (int)s_flag[0]);
-	ft_printf("client pid: %d\n", client);
-	
-	reset();
-	p = get_data(7);
-	while (p)
+	while(true)
 	{
-		write(1, &p, 1);
+		find_client(&client);
+		printf("s_flag: %d\n", (int)s_flag[0]);
+		ft_printf("client pid: %d\n", client);
 		reset();
-		kill(client, SIGUSR1);
 		p = get_data(7);
+		while (p)
+		{
+			write(1, &p, 1);
+			reset();
+			kill(client, SIGUSR2);
+			p = get_data(7);
+		}
+		kill(client, SIGUSR1);
 	}
-	kill(client, SIGUSR1);
-	
-}
+	}
 
-/*
+	/*
 Pseudocode for server infinite loop
 
 char *symbol;
