@@ -6,12 +6,12 @@
 #    By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 16:17:23 by amalecki          #+#    #+#              #
-#    Updated: 2021/12/12 08:49:26 by amalecki         ###   ########.fr        #
+#    Updated: 2021/12/15 17:02:26 by amalecki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SERVER_SOURCE = server.c server_utils.c
-CLIENT_SOURCE = client.c client_utils.c
+SERVER_SOURCE = server.c
+CLIENT_SOURCE = client.c
 DIR = ./my_ft_printf
 PRINTF = ${DIR}/libftprintf.a
 

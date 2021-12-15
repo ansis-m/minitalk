@@ -6,43 +6,42 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/15 11:17:55 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:00:41 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-long long	c_flag;
+bool	g_flag;
 
-void	c_sig_handler(int signum)
+static void	c_sig_handler(int signum)
 {
 	if (signum == SIGUSR1)
-		c_flag = 1;
+		g_flag = true;
 }
 
-void	send_pid(pid_t client, pid_t server)
+static void	graceful_exit(char *message)
+{
+	write(1, message, ft_strlen(message));
+	exit(0);
+}
+
+static void	init_sigaction(struct sigaction *s_action, void (*sig_handler)(int))
+{
+	sigemptyset(&s_action->sa_mask);
+	sigaddset(&s_action->sa_mask, SIGINT);
+	s_action->sa_flags = 0;
+	s_action->sa_handler = sig_handler;
+	sigaction(SIGUSR1, s_action, NULL);
+	sigaction(SIGUSR2, s_action, NULL);
+}
+
+static void	send_data(int message, pid_t server, int size)
 {
 	int	i;
 
 	i = 0;
-	while (i < 32)
-	{
-		if (client & (1 << i))
-			kill(server, SIGUSR1);
-		else
-			kill(server, SIGUSR2);
-		usleep(300);
-		i++;
-	}
-	usleep(4000);
-}
-
-void	send_char(char message, pid_t server)
-{
-	int	i;
-
-	i = 0;
-	while (i < 8)
+	while (i < size)
 	{
 		usleep(350);
 		if (message & (1 << i))
@@ -66,62 +65,30 @@ int	main(int argc, char *argv[])
 	client = getpid();
 	ft_printf("client pid: %d\n", client);
 	init_sigaction(&c_action, c_sig_handler);
-	while (c_flag != 1)
+	while (!g_flag)
 	{
-		send_pid(client, server);
+		send_data(client, server, 32);
 		usleep(1000);
 	}	
-	usleep(2000);
-	send_pid(INT_MAX, server);
+	send_data(INT_MAX, server, 32);
 
 	usleep(3000);
 	usleep(3000);
 	
-	c_flag = 0;
+	g_flag = false;
 	for (int i = 2 ; i < argc; i++)
 	{
 		for(int j = 0; argv[i][j] != '\0'; j++)
 		{
-			send_char(argv[i][j], server);
+			send_data(argv[i][j], server, 8);
 			usleep(2000);
 		}
-		send_char('\n', server);
+		send_data('\n', server, 8);
 		usleep(2000);
 	}
-	while(!c_flag)
+	while (!g_flag)
 	{
-		send_char(0, server);
+		send_data(0, server, 8);
 		usleep(2000);
 	}
-		
 }
-//cat ./big.txt | xargs -0 ./client 15978
-/*
-Pseudocode for client
-
-send_pid();
-
-while(c_flag = pid_not confirmed)
-{
-	send_pid();
-	usleep(1000);
-}
-reset(c_flag);
-for (int i =2 ; i < argc; i++)
-{
-	for(int j = 0; argv[i][j] != '\0', j++)
-	{
-		send_char()
-		while(c_flag = char_not confirmed)
-		{
-			send_char();
-		}
-		reset(c_flag);
-	}
-}
-
-send_terminating_code()
-while(c_flag = not confirmed)
-	send_terminating_code()
-
-*/
