@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:56 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/15 16:22:57 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:31:02 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include	<signal.h>
 # include	<stdbool.h>
 # include	<limits.h>
-# include	<stdio.h>//TO BE REMOVED //TO BE REMOVED //TO BE REMOVED
 # include	<wchar.h> //TO BE REMOVED //TO BE REMOVED //TO BE REMOVED
 # include	<locale.h>  //TO BE REMOVED //TO BE REMOVED //TO BE REMOVED
 

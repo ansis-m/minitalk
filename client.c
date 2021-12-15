@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/15 17:00:41 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:40:50 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,27 @@ static void	c_sig_handler(int signum)
 		g_flag = true;
 }
 
-static void	graceful_exit(char *message)
+static int	get_server(int argc, char *argv[])
 {
-	write(1, message, ft_strlen(message));
-	exit(0);
+	int	server;
+
+	if (argc == 1)
+	{
+		ft_printf("No pid provided to client. Try again!\n");
+		exit(0);
+	}
+	else if (argc == 2)
+	{
+		ft_printf("No message to transmit. Try again!\n");
+		exit(0);
+	}
+	server = ft_atoi(argv[1]);
+	if (argc <= 0)
+	{
+		ft_printf("Invalid server pid provided. Try again!\n");
+		exit(0);
+	}
+	return (server);
 }
 
 static void	init_sigaction(struct sigaction *s_action, void (*sig_handler)(int))
@@ -43,7 +60,7 @@ static void	send_data(int message, pid_t server, int size)
 	i = 0;
 	while (i < size)
 	{
-		usleep(350);
+		usleep(250);
 		if (message & (1 << i))
 			kill(server, SIGUSR1);
 		else
@@ -59,9 +76,7 @@ int	main(int argc, char *argv[])
 	pid_t				client;
 	struct sigaction	c_action;
 
-	if (argc == 1)
-		graceful_exit("No pid provided to client. Try again!\n");
-	server = atoi(argv[1]);
+	server = get_server(argc, argv);
 	client = getpid();
 	ft_printf("client pid: %d\n", client);
 	init_sigaction(&c_action, c_sig_handler);
@@ -71,10 +86,7 @@ int	main(int argc, char *argv[])
 		usleep(1000);
 	}	
 	send_data(INT_MAX, server, 32);
-
 	usleep(3000);
-	usleep(3000);
-	
 	g_flag = false;
 	for (int i = 2 ; i < argc; i++)
 	{
