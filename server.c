@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 21:01:26 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 10:50:36 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	s_flag[2];
 
 void	s_sig_handler(int signum)
 {
-	//printf("s_flag: %d   bit: %d\n", s_flag[0], s_flag[1]);
-
 	if (signum == SIGUSR1)
 		s_flag[0] |= (1 << s_flag[1]);
 	s_flag[1]++;
@@ -25,32 +23,33 @@ void	s_sig_handler(int signum)
 
 static void	reset(void)
 {
-		s_flag[0] &= 0;
+		s_flag[0] = 0;
 		s_flag[1] = 0;
 }
 
 static void	find_client(int *client)
 {
+	int a;
+
 	while (s_flag[0] < 999999)
 	{
 		reset();
-		get_data(33);
-		if (s_flag[0] > 0 && s_flag[0] < 777777)
-			*client = (int)s_flag[0];
-		reset();
+		a = get_data(31);
+		if (a > 0 && a < 777777)
+			*client = a;
 		kill(*client, SIGUSR1);
-		get_data(33);
 	}	
 }
 
-void	get_data(int bits)
+int	get_data(int bits)
 {
 	pause();
 	while (bits)
 	{
-		usleep(1000);
+		usleep(3000);
 		bits--;
 	}
+	return (s_flag[0]);
 }
 
 int	main(void)
@@ -58,7 +57,7 @@ int	main(void)
 	pid_t				server;
 	pid_t				client;
 	struct sigaction	s_action;
-	char			p;
+	char p;
 
 	init_sigaction(&s_action, s_sig_handler);
 	server = getpid();
@@ -67,15 +66,18 @@ int	main(void)
 
 	printf("s_flag: %d\n", (int)s_flag[0]);
 	ft_printf("client pid: %d\n", client);
+	
 	reset();
-	while (true)
+	p = get_data(7);
+	while (p)
 	{
-		get_data(7);
-		write(1, &s_flag[0], 1);
-		kill(client, SIGUSR1);
+		write(1, &p, 1);
 		reset();
-		
+		kill(client, SIGUSR1);
+		p = get_data(7);
 	}
+	kill(client, SIGUSR1);
+	
 }
 
 /*

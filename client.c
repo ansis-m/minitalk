@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/13 21:09:00 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 10:51:57 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,23 +34,24 @@ void	send_pid(pid_t client, pid_t server)
 		usleep(300);
 		i++;
 	}
+	usleep(4000);
 }
 
-void	send_char(int message, pid_t server)
+void	send_char(char message, pid_t server)
 {
 	int	i;
 
 	i = 0;
 	while (i < 8)
 	{
-		usleep(230);
+		usleep(350);
 		if (message & (1 << i))
 			kill(server, SIGUSR1);
 		else
 			kill(server, SIGUSR2);
 		i++;
-		
 	}
+	usleep(4000);
 }
 
 int	main(int argc, char *argv[])
@@ -68,11 +69,12 @@ int	main(int argc, char *argv[])
 	while (c_flag != 1)
 	{
 		send_pid(client, server);
-		usleep(3000);
+		usleep(1000);
 	}	
 	usleep(2000);
 	send_pid(INT_MAX, server);
 
+	usleep(3000);
 	usleep(3000);
 	
 	c_flag = 0;
@@ -80,11 +82,13 @@ int	main(int argc, char *argv[])
 	{
 		for(int j = 0; argv[i][j] != '\0'; j++)
 		{
-			usleep(100);
-			send_char((int)argv[i][j], server);
-			usleep(100000);
+			send_char(argv[i][j], server);
+			usleep(2000);
 		}
-}
+		send_char('\n', server);
+		usleep(2000);
+	}
+	send_char(0, server);
 }
 
 /*
