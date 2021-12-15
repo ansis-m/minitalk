@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:15:32 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/15 16:29:16 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 18:44:12 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	main(void)
 
 	init_sigaction(&s_action, s_sig_handler);
 	server = getpid();
-	ft_printf("%d\n", server);
+	ft_printf("server pid: %d\n\n", server);
 	while (true)
 	{
 		find_client(&client);
