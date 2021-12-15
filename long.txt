@@ -1,5 +1,0 @@
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-Some long text.
-Lets checkout how it works!
-There are linebrakes but that should be fine.
-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
