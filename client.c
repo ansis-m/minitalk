@@ -6,7 +6,7 @@
 /*   By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 16:16:37 by amalecki          #+#    #+#             */
-/*   Updated: 2021/12/15 17:40:50 by amalecki         ###   ########.fr       */
+/*   Updated: 2021/12/15 17:57:05 by amalecki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,6 @@ static int	get_server(int argc, char *argv[])
 	return (server);
 }
 
-static void	init_sigaction(struct sigaction *s_action, void (*sig_handler)(int))
-{
-	sigemptyset(&s_action->sa_mask);
-	sigaddset(&s_action->sa_mask, SIGINT);
-	s_action->sa_flags = 0;
-	s_action->sa_handler = sig_handler;
-	sigaction(SIGUSR1, s_action, NULL);
-	sigaction(SIGUSR2, s_action, NULL);
-}
-
 static void	send_data(int message, pid_t server, int size)
 {
 	int	i;
@@ -68,6 +58,22 @@ static void	send_data(int message, pid_t server, int size)
 		i++;
 	}
 	usleep(4000);
+	usleep(3000);
+}
+
+static void	send_message(int argc, char *argv[], int server)
+{
+	g_flag = false;
+	for (int i = 2 ; i < argc; i++)
+	{
+		for(int j = 0; argv[i][j] != '\0'; j++)
+		{
+			send_data(argv[i][j], server, 8);
+		}
+		send_data('\n', server, 8);
+	}
+	while (!g_flag)
+		send_data(0, server, 8);
 }
 
 int	main(int argc, char *argv[])
@@ -78,29 +84,15 @@ int	main(int argc, char *argv[])
 
 	server = get_server(argc, argv);
 	client = getpid();
-	ft_printf("client pid: %d\n", client);
-	init_sigaction(&c_action, c_sig_handler);
+	sigemptyset(&c_action.sa_mask);
+	sigaddset(&c_action.sa_mask, SIGINT);
+	c_action.sa_flags = 0;
+	c_action.sa_handler = c_sig_handler;
+	sigaction(SIGUSR1, &c_action, NULL);
+	sigaction(SIGUSR2, &c_action, NULL);
 	while (!g_flag)
-	{
 		send_data(client, server, 32);
-		usleep(1000);
-	}	
 	send_data(INT_MAX, server, 32);
-	usleep(3000);
-	g_flag = false;
-	for (int i = 2 ; i < argc; i++)
-	{
-		for(int j = 0; argv[i][j] != '\0'; j++)
-		{
-			send_data(argv[i][j], server, 8);
-			usleep(2000);
-		}
-		send_data('\n', server, 8);
-		usleep(2000);
-	}
-	while (!g_flag)
-	{
-		send_data(0, server, 8);
-		usleep(2000);
-	}
+	send_message(argc, argv, server);
+	ft_printf("Message transmitted. Client disconnected.\n");
 }
