@@ -6,7 +6,7 @@
 #    By: amalecki <amalecki@students.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 16:17:23 by amalecki          #+#    #+#              #
-#    Updated: 2021/12/15 17:02:26 by amalecki         ###   ########.fr        #
+#    Updated: 2021/12/16 10:47:26 by amalecki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ PRINTF = ${DIR}/libftprintf.a
 CLIENT = client
 SERVER = server
 CC = gcc
-CFLAGS = -Wall -Wextra #-Werror                TO BE REMOVED
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -rf
 
 all:    ${CLIENT} ${SERVER}
